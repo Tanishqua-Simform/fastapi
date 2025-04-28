@@ -195,3 +195,13 @@ Along with this, I explained SQL queries, joins and normalization in database to
 Later our whole python department had Ghughara Party (Specialty of Rajkot) and cutthroat foosball and table-tennis match.
 
 So that's it for today. See you on Monday. Bye!
+
+##### Dt. 28 Apr, 2025.
+
+Today, I skimmed through FastAPI documentation, later I started watching [BitFumes FastAPI](https://www.youtube.com/watch?v=7t2alSnE2-I) video tutorial, recommended by my mentor.
+
+I have discovered about Path and Query parameters along with Swagger UI provided by FastAPI. I have practised all this in [HelloWorld](/HelloWorld/) directory.
+
+I will follow this documentation alongside - [Tiangolo](https://fastapi.tiangolo.com/python-types/#more-motivation) | [devdocs](https://devdocs.io/fastapi/tutorial/background-tasks/index#add-the-background-task)
+
+So that's it for today. See you tomorrow. Bye!
