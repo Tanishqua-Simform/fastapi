@@ -205,3 +205,21 @@ I have discovered about Path and Query parameters along with Swagger UI provided
 I will follow this documentation alongside - [Tiangolo](https://fastapi.tiangolo.com/python-types/#more-motivation) | [devdocs](https://devdocs.io/fastapi/tutorial/background-tasks/index#add-the-background-task)
 
 So that's it for today. See you tomorrow. Bye!
+
+##### Dt. 29 Apr, 2025.
+
+Today, we will cover request body, pydantic schema and database connection from BitFumes Tutorial video.
+
+Before that, I wanted to work on my problem solving skills in python, so I started solving problems on Hackerrank and I have successfully achieved 5 star.
+
+Have a look - [Hackerrank Python 5 Star Gold badge](/images/Hackerrank_Python_Gold_badge.png)
+
+Now I will continue with my FastAPI module.
+
+I have covered request body, pydantic schema as well as creating database connection and Recipe model in it. I have implemented create operation and rest of CRUD I will perform tomorrow along with that I will add some notes for these topics.
+
+I have practised them in [HelloWorld](/HelloWorld/) and [Recipe_CRUD](/Recipe_CRUD/) direcories.
+
+Along with this, I helped one of the trainee with [Symmetric Tree Leetcode problem](https://leetcode.com/problems/symmetric-tree/) and few others with today's [POTD](https://leetcode.com/problems/count-subarrays-where-max-element-appears-at-least-k-times/description/?envType=daily-question&envId=2025-04-29) on LeetCode.
+
+So that's it for today. See you tomorrow. Bye!
