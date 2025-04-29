@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from typing import Optional
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -47,3 +48,16 @@ def print_hello(id: int, limit: int = 5, format: Optional[bool] = True):
         'status': 'success'
     }
     return data
+
+# Request Body and Pydantic schema
+## Pydantic schema is in schemas.py file
+class Blog(BaseModel):
+    title: str
+    description: str
+
+## blog parameter is the request body
+@app.post("/blog")
+def create_blog(blog: Blog):
+    return blog
+
+## CRUD in FastAPI using pydantic schema and database connection in CRUD directory.
