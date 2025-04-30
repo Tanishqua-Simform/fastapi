@@ -223,3 +223,162 @@ I have practised them in [HelloWorld](/HelloWorld/) and [Recipe_CRUD](/Recipe_CR
 Along with this, I helped one of the trainee with [Symmetric Tree Leetcode problem](https://leetcode.com/problems/symmetric-tree/) and few others with today's [POTD](https://leetcode.com/problems/count-subarrays-where-max-element-appears-at-least-k-times/description/?envType=daily-question&envId=2025-04-29) on LeetCode.
 
 So that's it for today. See you tomorrow. Bye!
+
+##### Dt. 30 Apr, 2025.
+
+Today, I have covered CRUD operations for Recipe model in SQLite, along with exceptions and status codes. Later I created User model using passlib library to hash passwords. I have also created response models and doc tags to partite Swagger doc routes. You can track my progress here - [Recipe_CRUD](/Recipe_CRUD/)
+
+### Path Operations (Endpoints)
+
+FastAPI allows defining endpoints using Python functions. Path parameters are specified in curly braces within the URL, while query parameters are declared with default or optional values in the function signature.
+
+```python
+@app.get("/items/{item_id}")
+def read_item(item_id: int, name: str = None):
+    return {"item_id": item_id, "name": name}
+```
+
+Supported HTTP methods include GET, POST, PUT, DELETE, and PATCH, each represented by decorators like `@app.get()`, `@app.post()`, etc.
+
+```python
+@app.post("/items/")
+def create_item(item: dict):
+    return item
+```
+
+To validate and serialize request and response data, FastAPI integrates Pydantic models.
+
+```python
+class Item(BaseModel):
+    name: str
+    description: str = None
+    price: float
+
+@app.post("/items/", response_model=Item)
+def create_item(item: Item):
+    return item
+```
+
+### Data Validation with Pydantic
+
+#### Data Modeling
+
+Pydantic models are used to define and enforce data structures. Each model inherits from `BaseModel`.
+
+```python
+class User(BaseModel):
+    id: int
+    name: str
+    email: str
+```
+
+#### Nested Models and Data Types
+
+Nested models enable modeling of complex data structures using types like `List`, `Dict`, and `Optional`.
+
+```python
+class Address(BaseModel):
+    city: str
+    zip_code: str
+
+class UserWithAddress(BaseModel):
+    name: str
+    addresses: List[Address]
+```
+
+#### Field Validation
+
+Fields can be validated using `Field()` constraints and custom validation logic via `@validator`.
+
+```python
+class Product(BaseModel):
+    name: str
+    price: float = Field(gt=0)
+
+    @validator('name')
+    def not_empty(cls, v):
+        if not v.strip():
+            raise ValueError("Name cannot be empty")
+        return v
+```
+
+### Database Integration
+
+#### Database Options
+
+FastAPI supports ORMs such as SQLAlchemy (sync) and Tortoise ORM (async). SQLAlchemy is widely used for production-grade applications.
+
+#### Database CRUD Operations
+
+CRUD operations are implemented using an ORM and the dependency injection system.
+
+```python
+@app.post("/users/")
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    db_user = UserModel(**user.dict())
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+```
+
+#### Database Dependency
+
+Database sessions are handled using dependencies that yield and close the session.
+
+```python
+engine = create_engine("sqlite:///./test.db")
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+```
+
+### Error Handling and Responses
+
+#### Custom Error Responses
+
+Custom error messages can be defined in endpoint decorators using the `responses` parameter.
+
+```python
+@app.get("/items/{item_id}", responses={404: {"description": "Item not found"}})
+def read_item(item_id: int):
+    if item_id != 1:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"item_id": item_id}
+```
+
+#### HTTPException
+
+The `HTTPException` class is used to raise HTTP errors explicitly.
+
+```python
+@app.get("/user/{user_id}")
+def get_user(user_id: int):
+    if user_id != 1:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {"user_id": user_id}
+```
+
+#### Global Exception Handling
+
+Global exception handlers allow central management of application-wide exceptions.
+
+```python
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"message": "An internal error occurred"},
+    )
+```
+
+One key note - To create standalone application for fast development use FastAPI but in case of whole end-to-end setup use Django instead.
+Mostly Data and ML departments make use of FastAPI and Azure services.
+
+So that's it for today, I will be on academic leave tomorrow as I have external viva and submission at my college, wish me luck.
+See you day after tomorrow. Bye!
