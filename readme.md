@@ -387,7 +387,7 @@ See you day after tomorrow. Bye!
 
 I have completed the [Bitfumes Tutorial](https://www.youtube.com/watch?v=7t2alSnE2-I) at last. It has covered, Relationships, API Routers, JWT tokens and Authentication. Although I haven't implemented it yet.
 
-#### Dependency Injection
+### Dependency Injection
 
 FastAPI's dependency injection system enables the modular reuse of functionality across endpoints. Dependencies are declared as function parameters and are injected automatically.
 
@@ -419,7 +419,7 @@ def read_items(limit: int = Depends(query_limit)):
     return {"limit_used": limit}
 ```
 
-##### Sub-dependencies
+#### Sub-dependencies
 
 Dependencies can themselves rely on other dependencies. FastAPI resolves them recursively, supporting complex workflows.
 
@@ -436,11 +436,11 @@ def read_profile(user=Depends(get_current_user)):
     return user
 ```
 
-#### Synchronous vs. Asynchronous
+### Synchronous vs. Asynchronous
 
 Synchronous functions block the server during I/O operations. Asynchronous (`async def`) functions allow the server to continue handling other requests, improving scalability. Use async for I/O-bound tasks (e.g., database, APIs), and sync for CPU-bound logic.
 
-##### Async Endpoints
+#### Async Endpoints
 
 FastAPI supports native `async def` endpoints. Use them for non-blocking I/O operations.
 
@@ -453,11 +453,11 @@ async def fetch_data():
 
 Async endpoints require using async-compatible libraries (e.g., HTTPX, async ORMs).
 
-##### Performance and Concurrency
+#### Performance and Concurrency
 
 FastAPI is built on ASGI, allowing high concurrency using asynchronous I/O. Combined with Uvicorn or Hypercorn, FastAPI can handle thousands of simultaneous connections efficiently.
 
-#### OAuth2 with Password (JWT)
+### OAuth2 with Password (JWT)
 
 FastAPI provides built-in support for OAuth2 and JWT authentication. Tokens are issued after successful login and used in the Authorization header of protected endpoints.
 
@@ -473,7 +473,7 @@ def read_users_me(token: str = Depends(oauth2_scheme)):
 
 A full implementation includes token generation and validation using libraries like `python-jose`.
 
-##### Role-Based Access Control
+#### Role-Based Access Control
 
 Dependencies can restrict access based on user roles. A common pattern is to inject a user and check their role before proceeding.
 
@@ -488,7 +488,7 @@ def read_admin_data(admin=Depends(get_admin_user)):
     return {"data": "Secret admin data"}
 ```
 
-##### Security Best Practices
+#### Security Best Practices
 
 Security practices include:
 
@@ -521,7 +521,7 @@ Later I read a few blogs to extend my knowledge sphere -
 
 _But Ramírez’s original ambition for the framework was much simpler: “I made it to please myself,” he says._ - [Sebastian Ramirez - Creator of FastAPI](https://www.sequoiacap.com/article/sebastian-ramirez-spotlight/)
 
-##### Points to Note -
+#### Points to Note -
 
 - **Relationships in FastAPI**: In FastAPI, relationships refer to how models (often SQLAlchemy models) are linked, such as **one-to-many** or **many-to-many** associations, which can be managed using foreign keys and ORM relationships.
 
@@ -551,3 +551,15 @@ I also had my project review done by my mentor, for [SimFood](https://github.com
 I wanted to have a change of mind, so i solved a LeetCode question on DFS - [PathSum](https://leetcode.com/problems/path-sum/description/)
 
 So that's it for today. See you on Monday. Bye!
+
+##### Dt. 5 May, 2025.
+
+Today, I have completed brief overview for all topics given on LMS. You can find the link to [ChatGPT](https://chatgpt.com/share/6814c713-84f8-8008-9730-b34d6798c90c) here.
+
+Later, I implemented JWT authentication and authorization as well as password hashing for security. [JWT-Auth](/JWT_Auth/)
+
+I have also solved a problem on DP on Leetcode - [House Robber](https://leetcode.com/problems/house-robber/description/)
+
+It was quite stormy today, such a lovely atmosphere. It saved us from the scorching heat of May.
+
+That's it for today. See you tomorrow. Bye!
