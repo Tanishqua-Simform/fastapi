@@ -2,9 +2,9 @@ from typing import Annotated
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session, Query
-import schemas, models, tokens
-from database import Base, engine
-from hashing import Hash
+from . import schemas, models, tokens
+from .database import Base, engine
+from .hashing import Hash
 
 app = FastAPI()
 

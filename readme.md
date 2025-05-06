@@ -563,3 +563,104 @@ I have also solved a problem on DP on Leetcode - [House Robber](https://leetcode
 It was quite stormy today, such a lovely atmosphere. It saved us from the scorching heat of May.
 
 That's it for today. See you tomorrow. Bye!
+
+##### Dt. 6 May, 2025.
+
+Today, I have started watching a video tutorial on youtube [FastAPI - Ssali Jonathan](https://www.youtube.com/watch?v=TO4aQ3ghFOc)
+
+I have completed 3 hours and notes of the Video are as follows -
+
+- `pip install fastapi[standard]` installs FastAPI with CLI and common extras like `uvicorn`, `httpx`, and `jinja2`.
+- `fastapi run` or `fastapi dev` starts the development server using CLI from FastAPI’s standard installation.
+- HTTP clients like **Postman** and **Restfox** are used to test and send HTTP requests to FastAPI endpoints.
+
+#### Introduction and Project Setup
+
+- **Installation**: Use `pip install fastapi[standard]` and `pip install uvicorn` (if needed) to set up FastAPI.
+
+- **Path parameter**: Passed directly in the URL, e.g., `/items/{id}`.
+
+- **Query parameter**: Passed after `?` in URL, e.g., `/items?limit=10`; optional with default values.
+
+- **Request Body**: Use Pydantic models to accept structured JSON data in the request body.
+
+- **Path handler function**: Python function mapped to HTTP methods using decorators like `@app.get()`.
+
+- **Type hints**: Specify expected types for FastAPI to auto-validate and document (e.g., `name: str`).
+
+- **Annotated, Union, Optional, Depends**:
+
+  - `Annotated`: Adds metadata to type hints.
+  - `Union`: Accepts multiple types.
+  - `Optional`: Allows `None` as a valid value.
+  - `Depends`: Injects dependencies into routes/functions.
+
+- **Serialization module / schema / Pydantic model**: Used to validate request/response data and serialize models.
+
+- **Header function**: Use `Header` class to read header values from incoming requests.
+
+- **Status code**: Set using `status_code=...` or `from fastapi import status`.
+
+#### Building CRUD in REST API
+
+- **Return type**: Declare with type hints (e.g., `-> dict`, `-> List[Item]`) for clarity and docs.
+
+- **Response model**: Use `response_model=Model` to define the shape of the response data.
+
+- **Typing module**: Use `List`, `Dict`, `Optional`, etc., from `typing` for type annotations.
+
+- **Validation using Pydantic model**: Ensures data shape and constraints before processing request.
+
+- **HTTPException**: Raise with `status_code` and `detail` to return custom error responses.
+
+#### File Structure and Routers
+
+- **Make modular by creating modules**: Separate logic into reusable files (models, schemas, services).
+
+- **Make Python folders as packages with `__init__.py`**: Allows module imports and proper packaging.
+
+- **schemas - Pydantic models**: Define request and response data shapes.
+
+- **models - SQLAlchemy ORM models**: Define database table structure and relationships.
+
+- **routes - API Endpoints**: Define API paths and connect them with handlers.
+
+- **Use `include_router`, `tags`, and `prefix`**: Organize endpoints and group by function/version.
+
+- **Do proper versioning**: e.g., `/api/v1/users` for maintainable APIs.
+
+#### Databases with SQLModel
+
+- **ORM**: Object Relational Mapping; interacts with DB using Python objects.
+
+- **`.env` for secret keys**: Store DB URLs, JWT secrets, etc., securely.
+
+- **`pip install asyncpg`**: Required for async PostgreSQL drivers.
+
+- **`pip install pydantic-settings`**: Manage and load `.env` into Pydantic settings.
+
+- **config.py**: Central location to load and access environment variables.
+
+- **AsyncEngine of SQLAlchemy**: Enables non-blocking DB communication using `create_async_engine`.
+
+- **Lifespan**: Manages startup/shutdown events with FastAPI’s app lifecycle.
+
+- **contextlib, asynccontextmanager, coroutine**: Handle async resource setup/teardown using `@asynccontextmanager`.
+
+- **uuid**: Use `uuid4()` for generating unique identifiers.
+
+- **Field**: Customize column defaults, constraints, and metadata in SQLModel.
+
+#### Finishing Up CRUD
+
+- **service.py - function handler of API endpoints**: Business logic layer separating routes and DB operations.
+
+- **AsyncSession**: Non-blocking DB session used with SQLAlchemy’s async engine.
+
+- **Select(), order_by(), where(), session.exec(statement), first(), session.add(), session.commit(), setattr(), session.delete()**: SQLModel query and mutation methods for async CRUD operations.
+
+Later, I solved a question on strings on LeetCode - [Length of last word](https://leetcode.com/problems/length-of-last-word/description/)
+
+Watching the video got very monotonous, so i challenged myself by giving a quiz - [FastAPI Quiz](https://chatgpt.com/share/681a0f7a-4588-8008-9c1c-0696c60ae662)
+
+Ahh, it started raining here, gotta reach home safe now. Alright, that's it for today, see you tomorrow. Bye!
