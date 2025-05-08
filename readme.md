@@ -664,3 +664,15 @@ Later, I solved a question on strings on LeetCode - [Length of last word](https:
 Watching the video got very monotonous, so i challenged myself by giving a quiz - [FastAPI Quiz](https://chatgpt.com/share/681a0f7a-4588-8008-9c1c-0696c60ae662)
 
 Ahh, it started raining here, gotta reach home safe now. Alright, that's it for today, see you tomorrow. Bye!
+
+##### Dt. 8 May, 2025.
+
+I reached home safely that night, although it rained heavily yesterday, due to which roads were clogged with water, so we trainees were provided a leave for the day.
+
+Today, I continued with doing those quiz rounds - [FastAPI Quiz](https://chatgpt.com/share/681a0f7a-4588-8008-9c1c-0696c60ae662)
+
+Later, I watched the video by [Ssali Jonathan](https://www.youtube.com/watch?v=TO4aQ3ghFOc) for 30 mins but I felt more like implementing rather than watching, so I started working on 1st POC - To Do List Api, given on LMS. -> [FastAPI-POC](https://github.com/Tanishqua-Simform/FastAPI-POC)
+
+One of my co-trainee was facing issue with circular import error, when initializing the package. So we discussed a work-around for that and solved the error together.
+
+So that's it for today. See you tomorrow. Bye!
