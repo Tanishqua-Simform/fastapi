@@ -676,3 +676,17 @@ Later, I watched the video by [Ssali Jonathan](https://www.youtube.com/watch?v=T
 One of my co-trainee was facing issue with circular import error, when initializing the package. So we discussed a work-around for that and solved the error together.
 
 So that's it for today. See you tomorrow. Bye!
+
+##### Dt. 9 May, 2025.
+
+I have some news, so yesterday at 9 PM war has been initiated between India and its Neighbouring Country. As of now India has been victorious in intercepting the enemy's drone attacks. Let's see what the future holds for us.
+
+So, today I have completed the POC-1 task -> [FastAPI-POC](https://github.com/Tanishqua-Simform/FastAPI-POC)
+
+Later I did pair-programming with one of my co-trainee which helped us share our insights of FastAPI mutually. I have learnt about Newly added execute method in sqlachemy and that what I had been using - query method, is now just a legacy method.
+
+We gave in a lot of time in understanding of 'orm_mode = True' configuration of pydantic schema, but it bear us no fruit. We concluded that it may have been resolved in newer releases of Pydantic but we'll still inquire with our mentor about the same.
+
+Also, I was given the feedback of evaluation-2 by my mentor. He said that feedback is positive and we just need to broaden our knowledge on ORM and SQL, rest everything was perfect.
+
+So that's it for today, I will complete POC-2 on Monday. Bye.
