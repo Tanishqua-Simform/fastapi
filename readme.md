@@ -690,3 +690,23 @@ We gave in a lot of time in understanding of 'orm_mode = True' configuration of 
 Also, I was given the feedback of evaluation-2 by my mentor. He said that feedback is positive and we just need to broaden our knowledge on ORM and SQL, rest everything was perfect.
 
 So that's it for today, I will complete POC-2 on Monday. Bye.
+
+##### Dt. 12 May, 2025.
+
+Today, I have completed the required tasks for POC-2 given on LMS -> [FastAPI-POC](https://github.com/Tanishqua-Simform/FastAPI-POC)
+
+But I wish to implement few more concepts just to practice, which I will complete tomorrow.
+
+During today's meet, my mentor advised us to keep following things in mind while coding in any framework -
+
+- Add Docstring in every function -> Information, Arguments, Returns, Raises
+- Add try and except blocks to handle breaking of code.
+- Add as many comments as possible
+- `# TODO: Description of task to be done later in code` -> Mark this in code as a good practice [Very imp]
+
+I found these resources helpful -
+
+- [Solving Circular Import Error in Pydantic Relationships](https://stackoverflow.com/questions/69042316/defining-fastapi-pydantic-many-to-many-relationships)
+- [Video - Sqlalchemy Relationships](https://www.youtube.com/watch?v=3N9JqtpkFJI)
+
+So that's it for today, see you tomorrow. Bye!
