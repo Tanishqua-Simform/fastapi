@@ -710,3 +710,20 @@ I found these resources helpful -
 - [Video - Sqlalchemy Relationships](https://www.youtube.com/watch?v=3N9JqtpkFJI)
 
 So that's it for today, see you tomorrow. Bye!
+
+##### Dt. 13 May, 2025.
+
+Today, I have created [InstaClone](/InstaClone/) to implement image uploading and alembic for migrations.
+
+I have configured alembic and Postgres db, but alembic was not creating tables in db although it was changing versions, so I will solve this issue tomorrow.
+
+I found these resources helpful while development -
+
+- [Sqlalchemy Driver Error](https://stackoverflow.com/questions/15648814/sqlalchemy-exc-argumenterror-cant-load-plugin-sqlalchemy-dialectsdriver)
+- [Medium - Alembic + FastAPI](https://medium.com/@alonskii44/using-alembic-with-fastapi-python-application-and-mysql-database-for-data-migration-e356bea9285)
+- [Medium - Alembic in FastAPI Configuration detailed](https://medium.com/@hasanmahira/fastapi-with-sqlalchemy-postgresql-and-alembic-1ccaba79572e)
+- [Medium - Amazon S3 Bucket Setup](https://medium.com/@thilinawaks/setup-aws-s3-bucket-for-storing-files-images-90cbcc7558d7)
+
+Also, I am going to box cricket match with our Python team.
+
+So, that's it for today, see you tomorrow. Bye!
