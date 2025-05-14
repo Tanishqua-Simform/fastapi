@@ -3,3 +3,5 @@ venv/
 crud-venv/
 auth-venv/
 .env
+minio_data/
+static/

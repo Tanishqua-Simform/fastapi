@@ -727,3 +727,28 @@ I found these resources helpful while development -
 Also, I am going to box cricket match with our Python team.
 
 So, that's it for today, see you tomorrow. Bye!
+
+##### Dt. 14 May, 2025.
+
+The issue in alembic that I am facing is, when I autogenerate migrations it does not modify upgrade function inside version file. I got to know about this issue by reading the docs - [Alembic Auto generate migrations](https://alembic.sqlalchemy.org/en/latest/autogenerate.html)
+
+Yippee, we have solved the error, so the problem was arising from Base.metadata which i was importing in env file. Somehow when I declared Base inside models file, it started detecting the changes. [Stackoverflow - Alembic Quick Overview](https://stackoverflow.com/questions/30425214/what-is-the-difference-between-creating-db-tables-using-alembic-and-defining-mod)
+
+I wanted to integrate Amazon S3 bucket, but did not want to add billing information in registration so finding a workaround now.
+
+I have found MinIO, which mocks Amazon S3 API but in local server. Boto3 is an AWS SDK for python, which we have used to create S3 client for uploading files on MinIO server.
+
+We need to install minIO with following commands -
+
+- Installation - wget https://dl.min.io/server/minio/release/linux-amd64/minio
+- Making command executable - chmod +x minio
+- Moving minio to global environment - sudo mv minio /usr/local/bin/
+- Changing minio user - export MINIO_ROOT_USER=admin
+- Changing minio password - export MINIO_ROOT_PASSWORD=admin
+- Running the MinIO Server - minio server directory-name
+
+Later, I installed python-multipart package, for uploading files from APIs, with help of docs - [Fastapi - File upload](https://fastapi.tiangolo.com/tutorial/request-forms-and-files/)
+
+In [InstaClone](/InstaClone/), I have integrated alembic and image/video uploading feature. Tomorrow I will work on relationship between user and posts.
+
+So that's it for today, see you tomorrow. Bye!
