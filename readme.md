@@ -752,3 +752,172 @@ Later, I installed python-multipart package, for uploading files from APIs, with
 In [InstaClone](/InstaClone/), I have integrated alembic and image/video uploading feature. Tomorrow I will work on relationship between user and posts.
 
 So that's it for today, see you tomorrow. Bye!
+
+##### Dt. 15 May, 2025.
+
+Today, I started by going through Regular expressions as I needed to validate email id, I found this article concise and easy to understand - [GFG - Regex](https://www.geeksforgeeks.org/write-regular-expressions/)
+
+While migrating to postgres, I faced an issue regarding Enums, where Alembic was throwing type error. I made a silly mistake I was using snake casing in Enum Class when I should have used Pascal Case instead, so it was causing some error internally for Alembic. I don't know how, but I case it solved the issue.
+
+I have watched a tutorial [Video - Sqlalchemy ORM](https://www.youtube.com/watch?v=XWtj4zLl_tg) for 35 mins and started implementing relationships for User, Post and Comments in my [InstaClone](/InstaClone/).
+
+I have faced lots of recurring issues in Alembic, but with every error solved I feel like I am understanding more about How it works.
+
+Note - Alembic has a certain down points that it cannot detect renaming of columns and tables, rather it performs addition with new_name and deletion of column with old_name, so instead it is recommended to do so manually in the database.
+
+Later, I learnt about Background Tasks, Email sending and Jinja Templates, the notes are as follows -
+
+### Background Tasks for sending Email with Jinja2 template
+
+Using background tasks, the email will be sent asynchronously in the background without blocking the response to the user.
+
+1. **Install Dependencies**
+
+```bash
+pip install fastapi jinja2 aiosmtplib email-validator python-multipart
+```
+
+2. **Folder Structure**
+
+```
+.
+├── main.py
+└── templates
+    └── email.html
+```
+
+3. **`templates/email.html`**
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Hello {{ user_name }}!</h2>
+    <p>Welcome to our service.</p>
+  </body>
+</html>
+```
+
+4. **`main.py` with BackgroundTask**
+
+```python
+from fastapi import FastAPI, BackgroundTasks, Form
+from jinja2 import Environment, FileSystemLoader
+from email.message import EmailMessage
+import aiosmtplib
+
+app = FastAPI()
+
+# Set up Jinja2 environment
+env = Environment(loader=FileSystemLoader("templates"))
+
+async def send_email_background(user_email: str, user_name: str):
+    # Render the Jinja2 template
+    template = env.get_template("email.html")
+    html_content = template.render(user_name=user_name)
+
+    # Create email message
+    message = EmailMessage()
+    message["From"] = "your_email@example.com"
+    message["To"] = user_email
+    message["Subject"] = "Welcome!"
+    message.set_content("This is a fallback plain text.")
+    message.add_alternative(html_content, subtype="html")
+
+    # Send the email (via SMTP)
+    await aiosmtplib.send(
+        message,
+        hostname="smtp.example.com",  # Your SMTP server
+        port=587,
+        start_tls=True,
+        username="your_email@example.com",  # Your email
+        password="your_password",  # Your password
+    )
+
+@app.post("/send-email/")
+async def send_email(user_email: str = Form(...), user_name: str = Form(...), background_tasks: BackgroundTasks):
+    # Add the send_email_background task to be run in the background
+    background_tasks.add_task(send_email_background, user_email, user_name)
+
+    return {"message": "Email will be sent in the background!"}
+```
+
+5. **Explanation**
+
+- **`send_email_background`**: This is the background function that sends the email. It uses **Jinja2** to render the HTML content and **aiosmtplib** to send the email asynchronously.
+
+- **`background_tasks.add_task(...)`**: This adds the `send_email_background` function to the background tasks. It won't block the main thread while sending the email.
+
+- **`BackgroundTasks`**: FastAPI's built-in `BackgroundTasks` allows you to execute code in the background while returning a response to the client immediately.
+
+7. **Test the Background Task**
+
+You can test this via a **POST request** (using Postman or curl):
+
+- **URL**: `http://localhost:8000/send-email/`
+- **Form Data**:
+
+  - `user_email`: `recipient@example.com`
+  - `user_name`: `John Doe`
+
+FastAPI will respond immediately with a message saying the email is being sent in the background.
+
+#### Miscellaneous Topics -
+
+**CORS**:
+
+- FastAPI provides built-in support for **Cross-Origin Resource Sharing (CORS)**. Use the `CORSMiddleware` to enable CORS for your FastAPI application, allowing cross-origin requests from specified domains.
+
+```python
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins or specify a list
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+```
+
+**State**:
+
+- The `state` object in FastAPI allows you to store application-level variables or objects that can be accessed globally throughout the lifecycle of the app. It’s useful for storing things like database connections, external service clients, etc.
+
+```python
+app.state.db = some_database_connection
+```
+
+**Headers as Response**:
+
+- FastAPI allows you to include custom headers in the response using `Response` or `JSONResponse`. This is useful for controlling caching, authentication tokens, or any custom headers.
+
+```python
+from fastapi import Response
+
+@app.get("/items/")
+async def get_items():
+    headers = {"X-Custom-Header": "value"}
+    return Response(content="Items list", headers=headers)
+```
+
+**Pydantic Validations**:
+
+- FastAPI leverages **Pydantic** models for data validation. These models are used for request bodies, query parameters, and more. FastAPI automatically validates the data according to the defined Pydantic schema, raising a 422 error if validation fails.
+
+```python
+from pydantic import BaseModel
+
+class Item(BaseModel):
+    name: str
+    price: float
+    description: str = None
+
+@app.post("/items/")
+async def create_item(item: Item):
+    return {"item": item}
+```
+
+I also spent good amount of time playing quiz with ChatGPT on various subjects of FastAPI and it's prerequisites. I find that intriguing and rewarding at the same time.
+
+So, that's it for today, see you tomorrow. Bye!
