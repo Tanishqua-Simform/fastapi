@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 
 class PostIn(BaseModel):
-    image: str
+    file_url: str
     caption: str
-    owner: int
+    user_id: UUID4

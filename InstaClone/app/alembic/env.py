@@ -27,7 +27,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 
 # # Added project's base
-from models.users import Base
+from models import Base
 target_metadata = Base.metadata
 # target_metadata = None
 
