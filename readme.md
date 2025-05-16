@@ -921,3 +921,246 @@ async def create_item(item: Item):
 I also spent good amount of time playing quiz with ChatGPT on various subjects of FastAPI and it's prerequisites. I find that intriguing and rewarding at the same time.
 
 So, that's it for today, see you tomorrow. Bye!
+
+##### Dt. 16 May, 2025.
+
+Few advance concepts of FastAPI are -
+
+### Caching
+
+- Use caching to store expensive computations or repeated query results.
+- Use third-party libraries like `fastapi-cache2`, `aiocache`, or `redis`.
+
+```bash
+pip install fastapi-cache2 redis
+```
+
+```python
+from fastapi import FastAPI
+from fastapi_cache2 import FastAPICache
+from fastapi_cache2.backends.redis import RedisBackend
+from redis import asyncio as aioredis
+from fastapi_cache2.decorator import cache
+
+app = FastAPI()
+
+@app.on_event("startup")
+async def startup():
+    redis = aioredis.from_url("redis://localhost")
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+
+@app.get("/items")
+@cache(expire=60)
+async def get_items():
+    return {"data": "cached response"}
+```
+
+### Throttling
+
+- Use `slowapi` for rate-limiting requests per client.
+- Install: `pip install slowapi`
+
+```python
+from fastapi import FastAPI, Request
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
+limiter = Limiter(key_func=get_remote_address)
+app = FastAPI()
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+@app.get("/limited")
+@limiter.limit("5/minute")
+async def limited_view(request: Request):
+    return {"message": "allowed"}
+```
+
+### Pagination
+
+- Basic pagination using query parameters (`skip`, `limit`).
+- Use Pydantic response models to return metadata.
+
+```python
+from fastapi import FastAPI, Query
+from typing import List
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class Item(BaseModel):
+    id: int
+    name: str
+
+@app.get("/items/", response_model=List[Item])
+async def read_items(skip: int = 0, limit: int = 10):
+    items = [{"id": i, "name": f"Item {i}"} for i in range(1, 101)]
+    return items[skip: skip + limit]
+```
+
+- For advanced pagination, use `fastapi-pagination`:
+
+```bash
+pip install fastapi-pagination
+```
+
+```python
+from fastapi_pagination import Page, add_pagination, paginate
+
+@app.get("/paginated-items/", response_model=Page[Item])
+async def get_paginated_items():
+    items = [{"id": i, "name": f"Item {i}"} for i in range(1, 101)]
+    return paginate(items)
+
+add_pagination(app)
+```
+
+### Mount Subapps
+
+- Mount multiple FastAPI apps under one main app for modular architecture.
+
+```python
+from fastapi import FastAPI
+
+main_app = FastAPI()
+sub_app = FastAPI()
+
+@sub_app.get("/info")
+async def info():
+    return {"subapp": "info"}
+
+main_app.mount("/sub", sub_app)
+```
+
+- Access `GET /sub/info` for subapp routing.
+
+### ORM
+
+- Use SQLAlchemy or SQLModel for ORM.
+- Include joins, group by, optimization techniques.
+
+```python
+from sqlmodel import SQLModel, Field, select, Session, create_engine, Relationship
+
+class Author(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    name: str
+    books: list["Book"] = Relationship(back_populates="author")
+
+class Book(SQLModel, table=True):
+    id: int = Field(default=None, primary_key=True)
+    title: str
+    author_id: int = Field(foreign_key="author.id")
+    author: Author = Relationship(back_populates="books")
+
+engine = create_engine("sqlite:///db.sqlite3")
+SQLModel.metadata.create_all(engine)
+```
+
+- Group By:
+
+```python
+from sqlalchemy import func
+
+def get_book_counts(session: Session):
+    statement = select(Author.name, func.count(Book.id)).join(Book).group_by(Author.name)
+    return session.exec(statement).all()
+```
+
+- Query Optimization:
+
+  - Use `.options(selectinload(...))` or `.options(joinedload(...))` to reduce queries.
+  - Use indexes on frequently filtered fields.
+  - Avoid N+1 problem by eager loading.
+
+- Select Related (eager loading):
+
+```python
+from sqlalchemy.orm import selectinload
+
+def get_authors_with_books(session: Session):
+    stmt = select(Author).options(selectinload(Author.books))
+    return session.exec(stmt).all()
+```
+
+- Prefetch Related (for reverse relationships):
+
+```python
+# Use selectinload on the reverse relationship to fetch children efficiently
+stmt = select(Author).options(selectinload(Author.books))
+```
+
+- Filtering:
+
+```python
+stmt = select(Book).where(Book.title.contains("FastAPI"))
+```
+
+- Ordering:
+
+```python
+stmt = select(Book).order_by(Book.title.desc())
+```
+
+- Limit and Offset:
+
+```python
+stmt = select(Book).offset(0).limit(10)
+```
+
+#### Python Decouple (Instead of os and dotenv)
+
+- **Purpose**: Used to separate configuration (like secrets, API keys, DB URLs) from source code.
+
+- **Installation**:
+
+  ```bash
+  pip install python-decouple
+  ```
+
+- **.env File**: Create a `.env` file to store environment variables (not committed to version control).
+
+  ```
+  DEBUG=True
+  SECRET_KEY=mysecret
+  DATABASE_URL=postgresql://user:pass@localhost/dbname
+  ```
+
+- **Usage in Code**:
+
+  ```python
+  from decouple import config
+
+  DEBUG = config('DEBUG', cast=bool)
+  SECRET_KEY = config('SECRET_KEY')
+  DATABASE_URL = config('DATABASE_URL')
+  ```
+
+- **Type Casting**: Automatically cast variables to `bool`, `int`, `float`, etc. using `cast=...`.
+
+  ```python
+  TIMEOUT = config('TIMEOUT', cast=int)
+  ```
+
+- **Default Values**: Provide fallback if variable not found.
+
+  ```python
+  MODE = config('MODE', default='production')
+  ```
+
+- **Security**: Keeps secrets out of source code and GitHub; use `.gitignore` to exclude `.env`.
+
+- **Integration**: Commonly used in FastAPI, Django, and other Python web frameworks for managing configurations.
+
+I had a sync-up meet with my mentor in which we discussed about the alembic issue that I had faced and how I resolved them, later he reviewed the relationships I have created in [InstaClone](/InstaClone/) directory.
+
+Although, I have a few pending tasks to be implemented in InstaClone, which I will keep working on later.
+
+I gave in a lot of my time in POCs. I have refactored the code in multiple files as per requirement. I have added metadata for Swagger docs, as well as docstrings to make the code readable. Then, I created its readme and now it is ready.
+
+You can have a look at the POCs here -> [FastAPI-POC](https://github.com/Tanishqua-Simform/FastAPI-POC)
+
+So that's it for this repo. See you on Monday, with a new course. Bye!
+
+###### With this we come to an end for our FastAPI Course (Learning duration - 14 days)
